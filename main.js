@@ -2,6 +2,7 @@
 const btnMenuEmail = document.querySelector('.navbar-email');
 const btnHamburguesa = document.querySelector('.menu');
 const btnShopping = document.querySelector('.navbar-shopping-cart');
+const btnCloseDetail = document.querySelector('.product-detail-close');
 
 //Display
 const desktopMenu = document.querySelector('.desktop-menu');
@@ -13,6 +14,7 @@ const productDetail = document.querySelector('#productDetail');
 btnMenuEmail.addEventListener('click', tooggleDesktopMenu);
 btnHamburguesa.addEventListener('click', tooggleMobileMenu);
 btnShopping.addEventListener('click', tooggleCarritoBtn);
+btnCloseDetail.addEventListener('click', closeDetail)
 
 //Functions
 function tooggleDesktopMenu(){
@@ -31,6 +33,10 @@ function tooggleCarritoBtn(){
     shoppingCartContainer.classList.toggle('inactive');
     desktopMenu.classList.add('inactive');
     mobileMenu.classList.add('inactive');
+    productDetail.classList.add('inactive');
+}
+
+function closeDetail(){
     productDetail.classList.add('inactive');
 }
 
@@ -70,14 +76,15 @@ productList.push({
 
 //Mi manera utilizando clases
 class Product {
-    constructor(name,image,price){
+    constructor(name,image,price,description){
         this.name = name;
         this.image = image;
         this.price = price;
+        this.description = description;
     }
 }
 
-const bicicleta = new Product('Bicicleta','https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 400);
+const bicicleta = new Product('Bicicleta','https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 400, 'Bicicleta para montañas, llantas duraderas, súper ligera');
 const celular = new Product('Celular','https://images.unsplash.com/photo-1560617544-b4f287789e24?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80', 300);
 const computadora = new Product('Computadora','https://images.unsplash.com/photo-1626218174358-7769486c4b79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80', 600);
 const bocinas = new Product('Bocina','https://images.unsplash.com/photo-1529359744902-86b2ab9edaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80', 150);
@@ -112,6 +119,7 @@ function renderProducts(arr){
         const div = document.createElement('div');
         const p1 = document.createElement('p');
         const p2 = document.createElement('p');
+        const p3 = document.createElement('p');
         const figure = document.createElement('figure');
         const img = document.createElement('img');
         const imgIcon = document.createElement('img');
@@ -129,6 +137,24 @@ function renderProducts(arr){
         productInfo.append(div, figure);
         figure.append(imgIcon);
         console.log(e.name);
+
+        //Funciones
+        img.addEventListener('click', function(){
+            console.log(e.name);
+            productDetail.classList.remove('inactive');
+            desktopMenu.classList.add('inactive');
+            shoppingCartContainer.classList.add('inactive');
+            mobileMenu.classList.add('inactive');
+            let productImg = document.querySelector('.productImg');
+            let productPrice = document.querySelector('.productPrice');
+            let productName = document.querySelector('.productName');
+            let productDescription = document.querySelector('.productDescription');
+
+            productImg.src = e.image;
+            productPrice.innerText = `$ ${e.price}`;
+            productName.innerText = e.name;
+            productDescription.innerText = e.description;
+        });
     });
 }
 
